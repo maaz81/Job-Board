@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
@@ -23,11 +22,16 @@ export function Hero() {
                     Post roles, find candidates, and get instant AI resume match scores — all in one place.
                 </p>
                 <div className="mt-8 flex items-center justify-center gap-4">
-                    <Button asChild size="lg">
-                        <Link to="/register">Get Started <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                    <Button size="lg" onClick={() => window.location.href = "/register"}>
+                        Get Started <ArrowRight className="ml-1 h-4 w-4" />
                     </Button>
-                    <Button asChild size="lg" variant="outline">
-                        <Link to="/jobs">Browse Jobs</Link>
+
+                    <Button
+                        size="lg"
+                        variant="outline"
+                        onClick={() => window.location.href = "/jobs"}
+                    >
+                        Browse Jobs
                     </Button>
                 </div>
             </motion.div>

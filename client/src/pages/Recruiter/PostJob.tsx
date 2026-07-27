@@ -59,16 +59,22 @@ const jobSchema = z.object({
     experience: z.enum(["ENTRY", "MID", "SENIOR", "LEAD", "EXECUTIVE"]),
     location: z.string().trim().min(2, "Location is required"),
     isRemote: z.boolean(),
-    salaryMin: z.coerce.number().int().positive().optional().or(z.literal("")),
-    salaryMax: z.coerce.number().int().positive().optional().or(z.literal("")),
+    salaryMin: z.coerce.number().int().positive().optional(),
+    salaryMax: z.coerce.number().int().positive().optional(),
 });
 type JobForm = z.infer<typeof jobSchema>;
 
 function JobPostForm() {
     const navigate = useNavigate();
-    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<JobForm>({
+    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
         resolver: zodResolver(jobSchema),
-        defaultValues: { type: "FULL_TIME", experience: "MID", isRemote: false },
+        defaultValues: {
+            type: "FULL_TIME",
+            experience: "MID",
+            isRemote: false,
+            salaryMin: undefined,
+            salaryMax: undefined,
+        },
     });
     const isRemote = watch("isRemote");
 

@@ -19,7 +19,9 @@ export default function MyJobs() {
         <div className="mx-auto max-w-4xl px-4 py-10">
             <div className="mb-6 flex items-center justify-between">
                 <h1 className="text-2xl font-semibold text-[#F9FAFB]">Your job posts</h1>
-                <Button asChild><Link to="/recruiter/post-job">Post a job</Link></Button>
+                <Button onClick={() => window.location.href = "/recruiter/post-job"}>
+                    Post a job
+                </Button>
             </div>
             {jobs?.length ? (
                 <div className="space-y-4">
