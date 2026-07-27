@@ -116,6 +116,7 @@ function PillToggle<T extends string>({ options, value, onChange }: {
 function JobPostForm() {
     const navigate = useNavigate();
     const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<JobForm>({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         resolver: zodResolver(jobSchema) as any,
         defaultValues: { type: "FULL_TIME", experience: "MID", isRemote: false },
     });
