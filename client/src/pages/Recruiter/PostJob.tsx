@@ -76,6 +76,7 @@ function JobPostForm() {
             salaryMax: undefined,
         },
     });
+    // eslint-disable-next-line react-hooks/incompatible-library
     const isRemote = watch("isRemote");
 
     const mutation = useMutation({

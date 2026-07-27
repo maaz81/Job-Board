@@ -27,6 +27,7 @@ export default function Register() {
         resolver: zodResolver(schema),
         defaultValues: { role: "CANDIDATE" },
     });
+    // eslint-disable-next-line react-hooks/incompatible-library
     const role = watch("role");
 
     const mutation = useMutation({
