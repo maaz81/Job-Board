@@ -19,7 +19,7 @@ export const env = {
   DATABASE_URL: process.env.DATABASE_URL!,
   JWT_SECRET: process.env.JWT_SECRET!,
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN ?? '7d',
-  GEMINI_API_KEY: process.env.GEMINI_API_KEY ?? '',
+  OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY ?? '',
   MAX_FILE_SIZE: parseInt(process.env.MAX_FILE_SIZE ?? '5242880', 10),
   UPLOAD_DIR: process.env.UPLOAD_DIR ?? 'uploads',
 } as const;

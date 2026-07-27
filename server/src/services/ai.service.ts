@@ -2,7 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { env } from "../config/env";
 import { BadRequestError } from "../utils/errors";
 
-const genAI = new GoogleGenerativeAI(env.GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(env.OPENROUTER_API_KEY);
 
 export async function getResumeMatchScore(resumeText: string, job: { title: string; description: string; requirements: string[]; skills: string[] }) {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
