@@ -1,0 +1,59 @@
+name: JobSphere CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      ########################
+      # Client
+      ########################
+
+      - name: Install Client
+        working-directory: client
+        run: npm ci
+
+      - name: Lint Client
+        working-directory: client
+        run: npm run lint
+
+      - name: Build Client
+        working-directory: client
+        run: npm run build
+
+      ########################
+      # Server
+      ########################
+
+      - name: Install Server
+        working-directory: server
+        run: npm ci
+
+      - name: Build Server
+        working-directory: server
+        run: npm run build
