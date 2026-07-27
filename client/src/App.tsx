@@ -4,6 +4,7 @@ import { Suspense, lazy } from "react";
 import MainLayout from "@/components/layout/MainLayout";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/common/ProtectedRoute";
+import { GuestRoute } from "@/components/common/GuestRoute";
 
 const Landing = lazy(() => import("@/pages/Landing"));
 const Login = lazy(() => import("@/pages/Auth/Login"));
@@ -32,8 +33,10 @@ export default function App() {
         <Routes>
           {/* Public */}
           <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route element={<GuestRoute />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
 
           <Route element={<MainLayout />}>
             {/* Public within layout */}
