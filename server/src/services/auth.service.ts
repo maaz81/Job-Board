@@ -1,6 +1,6 @@
 import { PrismaClient, Role } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import { env } from "../config/env";
 import { ConflictError, UnauthorizedError } from "../utils/errors"; // match your existing error classes
 
@@ -12,16 +12,20 @@ function generateToken(user: {
     email: string;
     role: Role;
 }) {
+    const secret: Secret = env.JWT_SECRET;
+
+    const options: SignOptions = {
+        expiresIn: env.JWT_EXPIRES_IN as SignOptions["expiresIn"],
+    };
+
     return jwt.sign(
         {
             id: user.id,
             email: user.email,
             role: user.role,
         },
-        env.JWT_SECRET,
-        {
-            expiresIn: env.JWT_EXPIRES_IN ?? "7d",
-        }
+        secret,
+        options
     );
 }
 
