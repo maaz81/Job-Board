@@ -3,10 +3,9 @@
 
 A full-stack job board with JWT authentication, role-based access, and an AI-powered resume match scoring feature built on the Gemini API.
 
-**Live app:** [your-vercel-url-here]
-**Demo accounts:**
-- Recruiter — `recruiter@demo.com` / `password123`
-- Candidate — `candidate@demo.com` / `password123`
+**Live Link:** 
+🌐 Frontend: [https://jobsphere-ai.vercel.app](https://job-board-neon-theta.vercel.app/)
+🔗 Backend API: [https://jobsphere-api.onrender.com](https://job-board-pkzb.onrender.com)
 
 ---
 
