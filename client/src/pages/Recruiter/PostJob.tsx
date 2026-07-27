@@ -116,7 +116,7 @@ function PillToggle<T extends string>({ options, value, onChange }: {
 function JobPostForm() {
     const navigate = useNavigate();
     const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<JobForm>({
-        resolver: zodResolver(jobSchema),
+        resolver: zodResolver(jobSchema) as any,
         defaultValues: { type: "FULL_TIME", experience: "MID", isRemote: false },
     });
     // eslint-disable-next-line react-hooks/incompatible-library

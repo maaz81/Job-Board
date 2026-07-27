@@ -45,8 +45,8 @@ export default function MyJobs() {
 
             <div className="mb-6 flex items-center justify-between">
                 <h1 className="text-2xl font-semibold text-[#F9FAFB]">Your job posts</h1>
-                <Button asChild>
-                    <Link to="/recruiter/post-job"><Plus className="mr-1 h-4 w-4" /> Post a job</Link>
+                <Button onClick={() => navigate("/recruiter/post-job")}>
+                    <Plus className="mr-1 h-4 w-4" /> Post a job
                 </Button>
             </div>
 
