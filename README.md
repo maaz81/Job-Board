@@ -48,28 +48,45 @@ A full-stack job board with JWT authentication, role-based access, and an AI-pow
 ---
 
 ## Project Structure
-job-board/
-├── client/ # React + Vite frontend
-│ ├── src/
-│ │ ├── api/ # Axios API modules
-│ │ ├── components/ # UI, layout, jobs, common components
-│ │ ├── hooks/ # Custom React hooks (incl. auth context)
-│ │ ├── lib/ # Utils, formatting helpers
-│ │ ├── pages/ # Route pages (auth, jobs, recruiter, candidate)
-│ │ └── types/ # TypeScript types
-│ └── ...
-└── server/ # Express + TypeScript backend
-├── prisma/ # Prisma schema + migrations + seed script
-└── src/
-├── config/ # DB, env config
-├── controllers/ # Route handlers
-├── middleware/ # Auth, validation, error handling
-├── routes/ # Express routers
-├── schemas/ # Zod validation schemas
-├── services/ # Business logic
-└── utils/ # Helpers
 
----
+```text
+job-board/
+├── client/
+│   ├── src/
+│   │   ├── api/              # Axios API modules
+│   │   ├── components/       # UI, layout, jobs, common components
+│   │   ├── hooks/            # Custom React hooks (including Auth Context)
+│   │   ├── lib/              # Utilities and helper functions
+│   │   ├── pages/            # Auth, Jobs, Recruiter, Candidate pages
+│   │   ├── types/            # TypeScript types
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── server/
+│   ├── prisma/
+│   │   ├── schema.prisma
+│   │   ├── migrations/
+│   │   └── seed.ts
+│   ├── src/
+│   │   ├── config/           # Database & environment configuration
+│   │   ├── controllers/      # Route controllers
+│   │   ├── middleware/       # Auth, validation & error handling
+│   │   ├── routes/           # Express routes
+│   │   ├── schemas/          # Zod validation schemas
+│   │   ├── services/         # Business logic
+│   │   ├── utils/            # Helper functions
+│   │   ├── app.ts
+│   │   └── server.ts
+│   ├── package.json
+│   └── tsconfig.json
+│
+├── .gitignore
+├── README.md
+└── package.json              # (if using a root workspace)
+```
 
 ## Getting Started
 
