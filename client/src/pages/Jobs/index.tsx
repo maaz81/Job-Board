@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchJobs } from "@/api/jobs";
 import { JobCard } from "@/components/jobs/JobCard";
-import { JobFilters } from "@/components/jobs/JobFilters";
-import type { JobFiltersState } from "@/components/jobs/JobFilters";
+import { JobFilters, type JobFiltersState } from "@/components/jobs/JobFilters";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 
