@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatRelativeTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { Loader2, ArrowLeft, Plus, Briefcase, Users, Eye } from "lucide-react";
+import { ArrowLeft, Plus, Briefcase, Users, Eye } from "lucide-react";
 
 function JobSkeleton() {
     return (

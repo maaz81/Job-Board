@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Loader2, ArrowLeft, Building2 } from "lucide-react";
 import { fetchMyCompany, createCompany, createJob } from "@/api/jobs";
 import { Button } from "@/components/ui/button";
@@ -119,6 +119,7 @@ function JobPostForm() {
         resolver: zodResolver(jobSchema),
         defaultValues: { type: "FULL_TIME", experience: "MID", isRemote: false },
     });
+    // eslint-disable-next-line react-hooks/incompatible-library
     const isRemote = watch("isRemote");
     const jobType = watch("type");
     const experience = watch("experience");
