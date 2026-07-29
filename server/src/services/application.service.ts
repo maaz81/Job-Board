@@ -32,3 +32,14 @@ export async function getJobApplications(userId: string, jobId: string) {
         orderBy: { createdAt: "desc" },
     });
 }
+
+export async function updateApplicationStatus(recruiterId: string, jobId: string, applicationId: string, status: string) {
+    const job = await prisma.job.findUnique({ where: { id: jobId } });
+    if (!job) throw new NotFoundError("Job not found");
+    if (job.userId !== recruiterId) throw new ForbiddenError("You don't own this job");
+
+    const application = await prisma.application.findUnique({ where: { id: applicationId } });
+    if (!application || application.jobId !== jobId) throw new NotFoundError("Application not found");
+
+    return prisma.application.update({ where: { id: applicationId }, data: { status: status as any } });
+}

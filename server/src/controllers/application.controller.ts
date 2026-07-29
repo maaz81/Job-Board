@@ -12,3 +12,10 @@ export async function getMyApplications(req: Request, res: Response, next: NextF
 export async function getJobApplications(req: Request, res: Response, next: NextFunction) {
     try { res.json(success(await applicationService.getJobApplications(req.user!.id, req.params.id as string), "Applicants fetched")); } catch (err) { next(err); }
 }
+
+export async function updateStatus(req: Request, res: Response, next: NextFunction) {
+    try {
+        const result = await applicationService.updateApplicationStatus(req.user!.id, req.params.id as string, req.params.applicationId as string, req.body.status);
+        res.json(success(result, "Status updated"));
+    } catch (err) { next(err); }
+}

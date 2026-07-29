@@ -1,5 +1,6 @@
 import { apiClient } from "./client";
-import type { Job, PaginatedJobs, Application, Company } from "@/types";
+import type { Job, PaginatedJobs, Application, Company, Applicant, ApplicationStatus } from "@/types";
+
 
 export interface JobFilters { search?: string; type?: string; experience?: string; isRemote?: boolean; location?: string; page?: number; limit?: number; }
 
@@ -37,5 +38,15 @@ export async function fetchMyCompany() {
 }
 export async function createCompany(payload: Record<string, unknown>) {
   const { data } = await apiClient.post<{ data: Company }>("/companies/me", payload);
+  return data.data;
+}
+
+
+export async function fetchJobApplicants(jobId: string) {
+  const { data } = await apiClient.get<{ data: Applicant[] }>(`/jobs/${jobId}/applications`);
+  return data.data;
+}
+export async function updateApplicationStatus(jobId: string, applicationId: string, status: ApplicationStatus) {
+  const { data } = await apiClient.patch<{ data: Applicant }>(`/jobs/${jobId}/applications/${applicationId}/status`, { status });
   return data.data;
 }

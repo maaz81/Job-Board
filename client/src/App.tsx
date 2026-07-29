@@ -17,6 +17,7 @@ const NotFound = lazy(() => import("@/pages/NotFound"));
 const PostJob = lazy(() => import("@/pages/Recruiter/PostJob"));
 const MyJobs = lazy(() => import("@/pages/Recruiter/MyJobs"));
 const MyApplications = lazy(() => import("@/pages/candidate/MyApplications"));
+const JobApplicants = lazy(() => import("@/pages/Recruiter/JobApplicants"));
 
 function PageLoader() {
   return (
@@ -53,6 +54,7 @@ export default function App() {
           <Route element={<ProtectedRoute allowedRoles={["RECRUITER"]} />}>
             <Route path="/recruiter/post-job" element={<PostJob />} />
             <Route path="/recruiter/jobs" element={<MyJobs />} />
+            <Route path="/recruiter/jobs/:jobId/applicants" element={<JobApplicants />} />
           </Route>
           <Route element={<ProtectedRoute allowedRoles={["CANDIDATE"]} />}>
             <Route path="/candidate/applications" element={<MyApplications />} />

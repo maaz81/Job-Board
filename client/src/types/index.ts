@@ -201,3 +201,17 @@ export interface InterviewQuestionsResult {
     difficulty: "Easy" | "Medium" | "Hard";
   }>;
 }
+
+export interface Applicant {
+  id: string;
+  status: ApplicationStatus;
+  coverLetter: string | null;
+  resumeUrl: string | null;
+  aiScore: number | null;
+  aiFeedback: string | null;
+  createdAt: string;
+  user: {
+    id: string; name: string; email: string;
+    profile: { headline: string | null; bio: string | null; location: string | null; website: string | null; linkedin: string | null; github: string | null; skills: string[] } | null;
+  };
+}

@@ -5,8 +5,9 @@ import * as applicationController from "../controllers/application.controller";
 import { authenticate, authorize } from "../middleware/auth";
 import { validate } from "../middleware/validate";
 import { createJobSchema, jobQuerySchema, jobStatusSchema } from "../schemas/job.schema";
-import { applySchema } from "../schemas/application.schema";
+import { applySchema, updateStatusSchema } from "../schemas/application.schema";
 import * as aiController from "../controllers/ai.controller"; import { matchScoreSchema } from "../schemas/ai.schema";
+
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.get("/:id/applications", authenticate, authorize("RECRUITER"), applicatio
 router.post("/:id/apply", authenticate, authorize("CANDIDATE"), validate(applySchema), applicationController.applyToJob);
 
 router.post("/:id/match-score", authenticate, authorize("CANDIDATE"), validate(matchScoreSchema), aiController.matchScore);
+router.patch("/:id/applications/:applicationId/status", authenticate, authorize("RECRUITER"), validate(updateStatusSchema), applicationController.updateStatus);
 
 export default router;

@@ -98,9 +98,9 @@ export default function MyJobs() {
                         >
                             <div className="min-w-0">
                                 <Link to={`/jobs/${job.slug}`} className="font-medium text-[#F9FAFB] hover:underline">{job.title}</Link>
-                                <p className="mt-1 text-sm text-zinc-400">
+                                <Link to={`/recruiter/jobs/${job.id}/applicants`} className="mt-1 block text-sm text-zinc-400 hover:text-[#8B5CF6] hover:underline">
                                     {job._count?.applications ?? 0} applicant{job._count?.applications === 1 ? "" : "s"} · {job.views} views · Posted {formatRelativeTime(job.createdAt)}
-                                </p>
+                                </Link>
                             </div>
                             <div className="flex shrink-0 items-center gap-3">
                                 <Badge className={job.isActive ? "bg-emerald-500/20 text-emerald-400 border-0" : "bg-zinc-700/40 text-zinc-400 border-0"}>
