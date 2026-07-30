@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import { ConflictError } from "../utils/errors";
 import { slugify } from "../utils/slugify";
-
-const prisma = new PrismaClient();
 
 export async function getMyCompany(userId: string) {
     return prisma.company.findUnique({ where: { userId } });

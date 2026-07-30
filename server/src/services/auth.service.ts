@@ -1,10 +1,10 @@
-import { PrismaClient, Role } from "@prisma/client";
+import { Role } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import bcrypt from "bcryptjs";
 import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import { env } from "../config/env";
 import { ConflictError, UnauthorizedError } from "../utils/errors"; // match your existing error classes
 
-const prisma = new PrismaClient();
 const SALT_ROUNDS = 10;
 
 function generateToken(user: {

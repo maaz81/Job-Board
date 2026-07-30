@@ -63,7 +63,30 @@ model User {
   applications Application[]
   savedJobs    SavedJob[]
 
+  sessions Session[]
+
+  isEmailVerified Boolean   @default(false)
+  emailVerifiedAt DateTime?
+  lastLoginAt     DateTime?
+
   @@map("users")
+}
+
+model Session {
+  id               String   @id @default(cuid())
+  userId           String
+  refreshTokenHash String
+  userAgent        String?
+  ipAddress        String?
+  isRevoked        Boolean  @default(false)
+  expiresAt        DateTime
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
 }
 
 model Profile {
@@ -174,3 +197,5 @@ model SavedJob {
   @@unique([userId, jobId])
   @@map("saved_jobs")
 }
+
+

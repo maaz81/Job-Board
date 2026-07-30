@@ -1,8 +1,7 @@
-import { PrismaClient, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import { BadRequestError, ForbiddenError, NotFoundError } from "../utils/errors";
 import { slugify } from "../utils/slugify";
-
-const prisma = new PrismaClient();
 
 export async function listJobs(filters: any) {
     const page = Number(filters.page ?? 1);

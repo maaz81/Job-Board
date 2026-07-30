@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../lib/prisma";
 import { ConflictError, ForbiddenError, NotFoundError } from "../utils/errors";
-
-const prisma = new PrismaClient();
 
 export async function applyToJob(userId: string, jobId: string, coverLetter?: string) {
     const job = await prisma.job.findUnique({ where: { id: jobId } });
