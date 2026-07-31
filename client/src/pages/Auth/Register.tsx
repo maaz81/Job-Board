@@ -32,8 +32,8 @@ export default function Register() {
 
     const mutation = useMutation({
         mutationFn: registerRequest,
-        onSuccess: ({ token, user }) => {
-            login(token, user);
+        onSuccess: ({ user }) => {
+            login(user);
             navigate(user.role === "RECRUITER" ? "/recruiter/jobs" : "/candidate/applications", { replace: true });
         },
     });

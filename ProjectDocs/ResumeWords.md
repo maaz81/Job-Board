@@ -1,0 +1,6 @@
+Designed and implemented a production-ready cookie-based authentication system using JWT (Access & Refresh Tokens), replacing localStorage authentication with secure HttpOnly cookies to mitigate XSS vulnerabilities.
+Built a Refresh Token Rotation mechanism with database-backed session management, enabling automatic token renewal, session revocation, and enhanced protection against stolen refresh token reuse.
+Developed a scalable authentication architecture by separating concerns into JWT utilities, session management, cookie handling, controllers, services, and middleware, following clean architecture principles.
+Implemented secure backend authentication features including role-based authorization, protected routes, bcrypt password hashing, CORS with credentials, secure cookie configuration, and centralized authentication middleware.
+Integrated a seamless frontend authentication experience using Axios interceptors for automatic access token refresh and request retry, ensuring uninterrupted user sessions without manual re-authentication.
+Architected a full-stack authentication workflow with React Context API, Express, Prisma, PostgreSQL, and TypeScript, supporting persistent login, automatic session recovery (/auth/me), and secure logout with session invalidation.

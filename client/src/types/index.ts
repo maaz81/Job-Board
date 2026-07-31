@@ -103,7 +103,6 @@ export interface Application {
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
 export interface AuthResponse {
-  token: string;
   user: User;
 }
 

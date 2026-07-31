@@ -16,3 +16,7 @@ export async function getMeRequest() {
   const { data } = await apiClient.get<{ data: User }>("/auth/me");
   return data.data;
 }
+
+export async function logoutRequest() {
+  await apiClient.post("/auth/logout");
+}

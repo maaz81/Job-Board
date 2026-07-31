@@ -1,50 +1,66 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { env } from '../config/env';
-import { UnauthorizedError, ForbiddenError } from '../utils/errors';
-import { Role } from '@prisma/client';
+import { Request, Response, NextFunction } from "express";
+import { Role } from "@prisma/client";
 
-export type JwtPayload = {
+import { verifyAccessToken } from "../auth/jwt";
+import {
+  UnauthorizedError,
+  ForbiddenError,
+} from "../utils/errors";
+
+export type AuthUser = {
   id: string;
-  email: string;
   role: Role;
 };
 
-// Extend Express Request to include user
 declare global {
   namespace Express {
     interface Request {
-      user?: JwtPayload;
+      user?: AuthUser;
     }
   }
 }
 
-export function authenticate(req: Request, _res: Response, next: NextFunction): void {
-  const authHeader = req.headers.authorization;
+export function authenticate(
+  req: Request,
+  _res: Response,
+  next: NextFunction
+): void {
+  const token = req.cookies?.accessToken;
 
-  if (!authHeader?.startsWith('Bearer ')) {
-    return next(new UnauthorizedError('No token provided'));
+  if (!token) {
+    return next(new UnauthorizedError("Authentication required"));
   }
 
-  const token = authHeader.split(' ')[1];
-
   try {
-    const payload = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
-    req.user = payload;
+    const payload = verifyAccessToken(token);
+
+    req.user = {
+      id: payload.sub,
+      role: payload.role,
+    };
+
     next();
   } catch {
-    next(new UnauthorizedError('Invalid or expired token'));
+    next(new UnauthorizedError("Invalid or expired access token"));
   }
 }
 
 export function authorize(...roles: Role[]) {
-  return (req: Request, _res: Response, next: NextFunction): void => {
+  return (
+    req: Request,
+    _res: Response,
+    next: NextFunction
+  ): void => {
     if (!req.user) {
       return next(new UnauthorizedError());
     }
+
     if (!roles.includes(req.user.role)) {
-      return next(new ForbiddenError('Insufficient permissions'));
+      return next(
+        new ForbiddenError("Insufficient permissions")
+      );
     }
+
     next();
   };
 }

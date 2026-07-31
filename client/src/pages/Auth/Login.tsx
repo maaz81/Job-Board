@@ -25,10 +25,18 @@ export default function Login() {
 
   const mutation = useMutation({
     mutationFn: loginRequest,
-    onSuccess: ({ token, user }) => {
-      login(token, user);
+    onSuccess: ({ user }) => {
+      login(user);
+
       const from = (location.state as { from?: { pathname: string } })?.from?.pathname;
-      navigate(from ?? (user.role === "RECRUITER" ? "/recruiter/jobs" : "/candidate/applications"), { replace: true });
+
+      navigate(
+        from ??
+        (user.role === "RECRUITER"
+          ? "/recruiter/jobs"
+          : "/candidate/applications"),
+        { replace: true }
+      );
     },
   });
 
