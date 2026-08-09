@@ -12,6 +12,7 @@ import type { User } from "@/types";
 
 import {
   getMeRequest,
+  refreshRequest,
   logoutRequest,
 } from "@/api/auth";
 
@@ -35,10 +36,25 @@ export function AuthProvider({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getMeRequest()
-      .then(setUser)
-      .catch(() => setUser(null))
-      .finally(() => setIsLoading(false));
+    async function initializeAuth() {
+      try {
+        const user = await getMeRequest();
+        setUser(user);
+      } catch {
+        try {
+          await refreshRequest();
+
+          const user = await getMeRequest();
+          setUser(user);
+        } catch {
+          setUser(null);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    initializeAuth();
   }, []);
 
   function login(newUser: User) {

@@ -1,6 +1,10 @@
 import { Role } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 import bcrypt from "bcryptjs";
+import {
+    createPasswordResetToken,
+    consumePasswordResetToken,
+} from "./passwordReset.service";
 
 import {
     ConflictError,
@@ -17,6 +21,7 @@ import { verifyRefreshToken } from "../auth/jwt";
 import { verifyRefreshSession } from "../auth/session";
 import { revokeSession, revokeAllSessions } from "../auth/session";
 
+import { sendPasswordResetEmail } from "./email.service";
 
 const SALT_ROUNDS = 10;
 
@@ -176,6 +181,8 @@ export async function getCurrentUser(userId: string) {
             email: true,
             role: true,
             createdAt: true,
+            isEmailVerified: true,
+            emailVerifiedAt: true,
         },
     });
 
@@ -244,4 +251,73 @@ export async function logoutUser(
     if (session) {
         await revokeSession(session.id);
     }
+}
+
+export async function forgotPassword(
+    email: string
+): Promise<string | null> {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const user = await prisma.user.findUnique({
+        where: {
+            email: normalizedEmail,
+        },
+    });
+
+    if (!user) {
+        return null;
+    }
+
+    const token = await createPasswordResetToken(user.id);
+
+    await sendPasswordResetEmail(
+        user.email,
+        token
+    );
+
+    return token;
+}
+
+export async function resetPassword(
+    token: string,
+    newPassword: string
+): Promise<void> {
+    const resetToken =
+        await consumePasswordResetToken(token);
+
+    const passwordHash = await bcrypt.hash(
+        newPassword,
+        SALT_ROUNDS
+    );
+
+    /*
+     * Password change + token deletion + session
+     * revocation should happen together.
+     */
+    await prisma.$transaction(async (tx) => {
+        await tx.user.update({
+            where: {
+                id: resetToken.userId,
+            },
+            data: {
+                password: passwordHash,
+            },
+        });
+
+        await tx.passwordResetToken.delete({
+            where: {
+                id: resetToken.id,
+            },
+        });
+
+        await tx.session.updateMany({
+            where: {
+                userId: resetToken.userId,
+                isRevoked: false,
+            },
+            data: {
+                isRevoked: true,
+            },
+        });
+    });
 }

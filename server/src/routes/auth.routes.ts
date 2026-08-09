@@ -3,6 +3,10 @@ import * as authController from "../controllers/auth.controller";
 import { validate } from "../middleware/validate";
 import { authenticate } from "../middleware/auth";
 import { registerSchema, loginSchema } from "../schemas/auth.schema";
+import {
+    forgotPasswordSchema,
+    resetPasswordSchema,
+} from "../schemas/auth.schema";
 
 const router = Router();
 
@@ -11,5 +15,27 @@ router.post("/login", validate(loginSchema), authController.login);
 router.get("/me", authenticate, authController.me);
 router.post("/refresh", authController.refresh);
 router.post("/logout", authController.logout);
+router.post(
+    "/verify-email",
+    authController.verifyEmailAddress
+);
+
+router.post(
+    "/resend-verification",
+    authenticate,
+    authController.resendVerification
+);
+
+router.post(
+    "/forgot-password",
+    validate(forgotPasswordSchema),
+    authController.forgotPassword
+);
+
+router.post(
+    "/reset-password",
+    validate(resetPasswordSchema),
+    authController.resetPassword
+);
 
 export default router;

@@ -57,19 +57,35 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  profile      Profile?
-  company      Company?
-  jobs         Job[]
-  applications Application[]
-  savedJobs    SavedJob[]
+  profile                 Profile?
+  company                 Company?
+  jobs                    Job[]
+  applications            Application[]
+  savedJobs               SavedJob[]
+  emailVerificationTokens EmailVerificationToken[]
 
-  sessions Session[]
+  sessions            Session[]
+  passwordResetTokens PasswordResetToken[]
 
   isEmailVerified Boolean   @default(false)
   emailVerifiedAt DateTime?
   lastLoginAt     DateTime?
 
   @@map("users")
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("email_verification_tokens")
 }
 
 model Session {
@@ -87,6 +103,20 @@ model Session {
 
   @@index([userId])
   @@index([expiresAt])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("password_reset_tokens")
 }
 
 model Profile {
@@ -197,5 +227,3 @@ model SavedJob {
   @@unique([userId, jobId])
   @@map("saved_jobs")
 }
-
-
