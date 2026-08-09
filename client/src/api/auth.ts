@@ -41,3 +41,49 @@ export async function refreshRequest() {
 export async function logoutRequest() {
   await apiClient.post("/auth/logout");
 }
+
+export async function forgotPasswordRequest(email: string) {
+  const { data } = await apiClient.post<{
+    data: null;
+    message: string;
+  }>("/auth/forgot-password", {
+    email,
+  });
+
+  return data;
+}
+
+export async function resetPasswordRequest(
+  token: string,
+  password: string
+) {
+  const { data } = await apiClient.post<{
+    data: null;
+    message: string;
+  }>("/auth/reset-password", {
+    token,
+    password,
+  });
+
+  return data;
+}
+
+export async function verifyEmailRequest(token: string) {
+  const { data } = await apiClient.post<{
+    data: null;
+    message: string;
+  }>("/auth/verify-email", {
+    token,
+  });
+
+  return data;
+}
+
+export async function resendVerificationRequest() {
+  const { data } = await apiClient.post<{
+    data: null;
+    message: string;
+  }>("/auth/resend-verification");
+
+  return data;
+}

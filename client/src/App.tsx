@@ -6,6 +6,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/common/ProtectedRoute";
 import { GuestRoute } from "@/components/common/GuestRoute";
 
+
 const Landing = lazy(() => import("@/pages/Landing"));
 const Login = lazy(() => import("@/pages/Auth/Login"));
 const Register = lazy(() => import("@/pages/Auth/Register"));
@@ -18,6 +19,10 @@ const PostJob = lazy(() => import("@/pages/Recruiter/PostJob"));
 const MyJobs = lazy(() => import("@/pages/Recruiter/MyJobs"));
 const MyApplications = lazy(() => import("@/pages/candidate/MyApplications"));
 const JobApplicants = lazy(() => import("@/pages/Recruiter/JobApplicants"));
+const ForgotPassword = lazy(() => import("@/pages/Auth/ForgotPassword"));
+const ResetPassword = lazy(() => import("@/pages/Auth/ResetPassword"));
+const VerifyEmail = lazy(() => import("@/pages/Auth/VerifyEmail"));
+const VerificationPending = lazy(() => import("@/pages/Auth/VerificationPending"));
 
 function PageLoader() {
   return (
@@ -34,9 +39,34 @@ export default function App() {
         <Routes>
           {/* Public */}
           <Route path="/" element={<Landing />} />
+
+          {/* Guest-only */}
           <Route element={<GuestRoute />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route
+              path="/forgot-password"
+              element={<ForgotPassword />}
+            />
+          </Route>
+
+          {/* Public token-based authentication pages */}
+          <Route
+            path="/verify-email"
+            element={<VerifyEmail />}
+          />
+
+          <Route
+            path="/reset-password"
+            element={<ResetPassword />}
+          />
+
+          {/* Authenticated but not guest-only */}
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path="/verification-pending"
+              element={<VerificationPending />}
+            />
           </Route>
 
           <Route element={<MainLayout />}>

@@ -10,11 +10,11 @@ export type ApplicationStatus = "APPLIED" | "SCREENING" | "INTERVIEW" | "OFFER" 
 
 export interface User {
   id: string;
-  email: string;
   name: string;
+  email: string;
   role: Role;
-  avatar?: string | null;
-  createdAt?: string;
+  isEmailVerified: boolean;
+  emailVerifiedAt: string | null;
 }
 
 export interface Profile {

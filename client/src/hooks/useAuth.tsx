@@ -20,6 +20,7 @@ interface AuthContextValue {
   user: User | null;
   isLoading: boolean;
   login: (user: User) => void;
+  refreshUser: () => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -61,6 +62,15 @@ export function AuthProvider({
     setUser(newUser);
   }
 
+  async function refreshUser() {
+    try {
+      const currentUser = await getMeRequest();
+      setUser(currentUser);
+    } catch {
+      setUser(null);
+    }
+  }
+
   async function logout() {
     try {
       await logoutRequest();
@@ -80,6 +90,7 @@ export function AuthProvider({
         user,
         isLoading,
         login,
+        refreshUser,
         logout,
       }}
     >

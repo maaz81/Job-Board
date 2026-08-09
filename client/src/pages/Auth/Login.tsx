@@ -61,9 +61,31 @@ export default function Login() {
             {errors.email && <p className="text-sm text-red-400">{errors.email.message}</p>}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" placeholder="••••••••" {...register("password")} />
-            {errors.password && <p className="text-sm text-red-400">{errors.password.message}</p>}
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">
+                Password
+              </Label>
+
+              <Link
+                to="/forgot-password"
+                className="text-xs text-[#8B5CF6] hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
+
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              {...register("password")}
+            />
+
+            {errors.password && (
+              <p className="text-sm text-red-400">
+                {errors.password.message}
+              </p>
+            )}
           </div>
           {mutation.isError && <p className="text-sm text-red-400 text-center">Invalid email or password</p>}
           <Button type="submit" className="w-full" disabled={mutation.isPending}>
