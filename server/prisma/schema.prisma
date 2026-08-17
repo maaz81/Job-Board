@@ -41,6 +41,7 @@ enum ApplicationStatus {
   OFFER
   HIRED
   REJECTED
+  WITHDRAWN
 }
 
 // ─────────────────────────────────────────────
@@ -191,6 +192,13 @@ model Job {
   applications Application[]
   savedBy      SavedJob[]
 
+  @@index([isActive, createdAt])
+  @@index([isActive, isFeatured, createdAt])
+  @@index([type, experience])
+  @@index([location])
+  @@index([salaryMin])
+  @@index([salaryMax])
+  @@index([companyId])
   @@map("jobs")
 }
 
@@ -212,6 +220,8 @@ model Application {
   job  Job  @relation(fields: [jobId], references: [id], onDelete: Cascade)
 
   @@unique([userId, jobId])
+  @@index([userId, createdAt])
+  @@index([jobId, status])
   @@map("applications")
 }
 
@@ -225,5 +235,7 @@ model SavedJob {
   job  Job  @relation(fields: [jobId], references: [id], onDelete: Cascade)
 
   @@unique([userId, jobId])
+  @@index([userId, createdAt])
+  @@index([jobId])
   @@map("saved_jobs")
 }

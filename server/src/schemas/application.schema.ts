@@ -5,5 +5,12 @@ export const applySchema = z.object({
 });
 
 export const updateStatusSchema = z.object({
-    status: z.enum(["APPLIED", "SCREENING", "INTERVIEW", "OFFER", "HIRED", "REJECTED"]),
+    status: z.enum([
+        "APPLIED",
+        "SCREENING",
+        "INTERVIEW",
+        "OFFER",
+        "HIRED",
+        "REJECTED",
+    ]),
 });

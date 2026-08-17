@@ -13,6 +13,7 @@ import authRoutes from "./routes/auth.routes";
 import companyRoutes from "./routes/company.routes";
 import jobRoutes from "./routes/job.routes";
 import applicationRoutes from "./routes/applications.routes";
+import profileRoutes from "./routes/profile.routes";
 
 const app = express();
 
@@ -76,6 +77,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/companies", companyRoutes);
 app.use("/api/v1/jobs", jobRoutes);
 app.use("/api/v1/applications", applicationRoutes);
+app.use("/api/v1/profile", profileRoutes);
 
 // 404
 app.use((_req, res) => {

@@ -8,7 +8,7 @@ import { formatRelativeTime, getInitials } from "@/lib/format";
 import { ArrowLeft, Inbox } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const STATUS_ORDER = ["APPLIED", "SCREENING", "INTERVIEW", "OFFER", "HIRED", "REJECTED"] as const;
+const STATUS_ORDER = ["APPLIED", "SCREENING", "INTERVIEW", "OFFER", "HIRED", "REJECTED", "WITHDRAWN"] as const;
 
 const STATUS_STYLES: Record<string, { badge: string; dot: string }> = {
     APPLIED: { badge: "bg-zinc-700/40 text-zinc-300", dot: "bg-zinc-400" },
@@ -17,6 +17,10 @@ const STATUS_STYLES: Record<string, { badge: string; dot: string }> = {
     OFFER: { badge: "bg-purple-500/20 text-purple-400", dot: "bg-purple-400" },
     HIRED: { badge: "bg-emerald-500/20 text-emerald-400", dot: "bg-emerald-400" },
     REJECTED: { badge: "bg-red-500/20 text-red-400", dot: "bg-red-400" },
+    WITHDRAWN: {
+        badge: "bg-orange-500/20 text-orange-400",
+        dot: "bg-orange-400",
+    },
 };
 
 function ApplicationSkeleton() {

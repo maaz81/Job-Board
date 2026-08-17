@@ -19,3 +19,49 @@ export async function updateStatus(req: Request, res: Response, next: NextFuncti
         res.json(success(result, "Status updated"));
     } catch (err) { next(err); }
 }
+
+export async function getApplicationById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const result =
+            await applicationService.getApplicationById(
+                req.user!.id,
+                req.params.id as string
+            );
+
+        res.json(
+            success(
+                result,
+                "Application fetched"
+            )
+        );
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function withdrawApplication(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    try {
+        const result =
+            await applicationService.withdrawApplication(
+                req.user!.id,
+                req.params.id as string
+            );
+
+        res.json(
+            success(
+                result,
+                "Application withdrawn successfully"
+            )
+        );
+    } catch (err) {
+        next(err);
+    }
+}

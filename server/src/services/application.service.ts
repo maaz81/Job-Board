@@ -1,6 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { ConflictError, ForbiddenError, NotFoundError } from "../utils/errors";
 
+
 export async function applyToJob(userId: string, jobId: string, coverLetter?: string) {
     const job = await prisma.job.findUnique({ where: { id: jobId } });
     if (!job || !job.isActive) throw new NotFoundError("Job not found or no longer accepting applications");
@@ -40,4 +41,89 @@ export async function updateApplicationStatus(recruiterId: string, jobId: string
     if (!application || application.jobId !== jobId) throw new NotFoundError("Application not found");
 
     return prisma.application.update({ where: { id: applicationId }, data: { status: status as any } });
+}
+
+export async function getApplicationById(
+    userId: string,
+    applicationId: string
+) {
+    const application = await prisma.application.findUnique({
+        where: {
+            id: applicationId,
+        },
+        include: {
+            job: {
+                include: {
+                    company: {
+                        select: {
+                            name: true,
+                            logo: true,
+                            slug: true,
+                            location: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    if (!application) {
+        throw new NotFoundError("Application not found");
+    }
+
+    if (application.userId !== userId) {
+        throw new ForbiddenError(
+            "You don't have access to this application"
+        );
+    }
+
+    return application;
+}
+
+export async function withdrawApplication(
+    userId: string,
+    applicationId: string
+) {
+    const application =
+        await prisma.application.findUnique({
+            where: {
+                id: applicationId,
+            },
+        });
+
+    if (!application) {
+        throw new NotFoundError(
+            "Application not found"
+        );
+    }
+
+    if (application.userId !== userId) {
+        throw new ForbiddenError(
+            "You don't have access to this application"
+        );
+    }
+
+    if (
+        application.status === "HIRED" ||
+        application.status === "REJECTED"
+    ) {
+        throw new ConflictError(
+            "This application can no longer be withdrawn"
+        );
+    }
+
+    if (application.status === "WITHDRAWN") {
+        throw new ConflictError(
+            "Application is already withdrawn"
+        );
+    }
+
+    return prisma.application.update({
+        where: {
+            id: applicationId,
+        },
+        data: {
+            status: "WITHDRAWN",
+        },
+    });
 }
